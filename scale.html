@@ -61,22 +61,24 @@
 		</style>
 		<script>
 			window.onload = function() {
-				var box1 = document.getElementById('box1');
-				var bg = document.getElementById('bg');
-				var oImg = document.getElementsByTagName('img')[0];
-				var box2 = document.getElementById('box2');
+				var box1 = document.getElementById('box1');//小图显示区域
+				var bg = document.getElementById('bg');//左边可移动的小圆形放大镜
+				var oImg = document.getElementsByTagName('img')[0];//右面的大图片
+				var box2 = document.getElementById('box2');//右面显示大图的区域
 				//var downX = 0;
 				//var downY = 0;
 				//console.log(box1)
-				box1.onmouseover = function() {
-					box2.style.display = 'block';
+				box1.onmouseover = function() {//鼠标移入左边小图片盒子
+					box2.style.display = 'block';//右边大图片的盒子里显示内容
 				}
-				box1.onmouseout = function() {
-					box2.style.display = 'none';
+				box1.onmouseout = function() {//鼠标从左边小盒子移出
+					box2.style.display = 'none';//右边大盒子内容隐藏
 				}
 
-				bg.onmousemove = function(ev) {
+				bg.onmousemove = function(ev) {//当放大镜移动到不同区域
+					//放大镜相对于box1的left值
 					var l = ev.clientX - box1.offsetLeft-bg.offsetWidth/2;
+					//放大镜相对于到box1的top值
 					var t = ev.clientY - box1.offsetTop-bg.offsetHeight/2;
 
 					if(l < 0) {
@@ -85,8 +87,8 @@
 					if(t < 0) {
 						t = 0;
 					}
-					var maxX = box1.clientWidth - bg.offsetWidth;
-					var maxY = box1.clientHeight - bg.offsetHeight;
+					var maxX = box1.clientWidth - bg.offsetWidth;//放大镜运动的最大left距离
+					var maxY = box1.clientHeight - bg.offsetHeight;//放大镜运动的最大top距离
 					if(l > maxX) {
 						l = maxX;
 					}
@@ -96,12 +98,16 @@
 
 					bg.style.left = l + "px";
 					bg.style.top = t + "px";
-					
+					//左边放大镜的left、top值与最大left、top值比值与右边可视区域的left、top值之比相等
 					var moveX = l/maxX;
 					var moveY = t/maxY;
 					
 					oImg.style.left = moveX*(box2.clientWidth-oImg.offsetWidth)+"PX";
 					oImg.style.top = moveY*(box2.clientHeight-oImg.offsetHeight)+"PX";
+					/*相当于
+					 * l/maxX=oImg.style.left/(box2.clientWidth-oImg.offsetWidth)
+					   t/maxY=oImg.style.top/(box2.clientHeight-oImg.offsetHeight)*/
+					
 				};
 
 				box1.onmouseup = function(ev) {
