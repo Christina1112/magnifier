@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="css/reset.css" />
+		<link rel="stylesheet" href="css/public.css" />
+
+		<style>
+			.wrap {
+				width: 900px;
+				height: 500px;
+				background: url(images/bg.png);
+				margin: 100px auto;
+				padding: 155px 0 0 148px;
+				box-sizing: border-box;
+			}
+			
+			#box1 {
+				width: 338px;
+				height: 190px;
+				background: url(images/2.jpg);
+				background-size: 338px 190px;
+				box-sizing: border-box;
+				position: relative;
+				margin-right: 100px;
+			}
+			
+			#bg {
+				width: 91px;
+				height: 91px;
+				border: 1px solid transparent;
+				background: #ca426c;
+				opacity: 0.3;
+				filter: alpha(opacity=30);
+				border-radius: 50%;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+			
+			#box2 {
+				width: 182px;
+				height: 182px;
+				margin-top: 2px;
+				border: 1px solid transparent;
+				border-radius: 50%;
+				overflow: hidden;
+				position: relative;
+				display: none;
+			}
+			
+			#box2 img {
+				width: 676px;
+				height: 380px;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+		</style>
+		<script>
+			window.onload = function() {
+				var box1 = document.getElementById('box1');
+				var bg = document.getElementById('bg');
+				var oImg = document.getElementsByTagName('img')[0];
+				var box2 = document.getElementById('box2');
+				//var downX = 0;
+				//var downY = 0;
+				//console.log(box1)
+				box1.onmouseover = function() {
+					box2.style.display = 'block';
+				}
+				box1.onmouseout = function() {
+					box2.style.display = 'none';
+				}
+
+				bg.onmousemove = function(ev) {
+					var l = ev.clientX - box1.offsetLeft-bg.offsetWidth/2;
+					var t = ev.clientY - box1.offsetTop-bg.offsetHeight/2;
+
+					if(l < 0) {
+						l = 0;
+					}
+					if(t < 0) {
+						t = 0;
+					}
+					var maxX = box1.clientWidth - bg.offsetWidth;
+					var maxY = box1.clientHeight - bg.offsetHeight;
+					if(l > maxX) {
+						l = maxX;
+					}
+					if(t > maxY) {
+						t = maxY;
+					}
+
+					bg.style.left = l + "px";
+					bg.style.top = t + "px";
+					
+					var moveX = l/maxX;
+					var moveY = t/maxY;
+					
+					oImg.style.left = moveX*(box2.clientWidth-oImg.offsetWidth)+"PX";
+					oImg.style.top = moveY*(box2.clientHeight-oImg.offsetHeight)+"PX";
+				};
+
+				box1.onmouseup = function(ev) {
+					box1.onmousemove = box1.onmouseup = null;
+				};
+
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="wrap">
+			<div id="box1" class="fl">
+				<div id="bg"></div>
+			</div>
+			<div id="box2" class="fl">
+				<img src="images/2.jpg" />
+
+			</div>
+		</div>
+		<!--<script src="./utils.js"></script>-->
+	</body>
+
+</html>
